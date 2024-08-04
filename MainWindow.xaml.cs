@@ -12,11 +12,13 @@ namespace MoffBackgroundSwitcher
 {
     public partial class MainWindow : Window
     {
-        const int SPI_SETDESKWALLPAPER = 20;
-        const int SPIF_UPDATEINIFILE = 0x01;
-        const int SPIF_SENDWININICHANGE = 0x02;
+        private const int SPI_SETDESKWALLPAPER = 20;
+        private const int SPIF_UPDATEINIFILE = 0x01;
+        private const int SPIF_SENDWININICHANGE = 0x02;
 
-        const string BackgroundDirectory = @"A:\Background";
+        private SettingsWindow _settingsWindow;
+
+        private const string BackgroundDirectory = @"A:\Background";
 
         public MainWindow()
         {
@@ -52,7 +54,27 @@ namespace MoffBackgroundSwitcher
             nextItem.Click += NextItem_Event;
             contextMenu.MenuItems.Add(nextItem);
 
+            var settingsItem = new MenuItem
+            {
+                Index = 1,
+                Text = "Settings",
+            };
+            settingsItem.Click += OpenSettings_Event;
+            contextMenu.MenuItems.Add(settingsItem);
+
             return contextMenu;
+        }
+
+        private void OpenSettings_Event(object sender, EventArgs e)
+        {
+            if(_settingsWindow != null)
+            {
+                return;
+            }
+
+            _settingsWindow = new SettingsWindow();
+            _settingsWindow.Closed += (s, ev) => _settingsWindow = null;
+            _settingsWindow.Show();
         }
 
         private void NextItem_Event(object sender, EventArgs e)
