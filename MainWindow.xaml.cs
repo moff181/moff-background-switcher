@@ -28,8 +28,11 @@ namespace MoffBackgroundSwitcher
             {
                 Icon = new Icon("Main.ico"),
                 Visible = true,
+                Text = "Moff Background Switcher"
             };
-            ni.DoubleClick += Ni_DoubleClick;
+            ni.DoubleClick += NextItem_Event;
+            
+            ni.ContextMenu = CreateContextMenu();
 
             Task.Run(() =>
             {
@@ -37,16 +40,31 @@ namespace MoffBackgroundSwitcher
             });
         }
 
-        private void Ni_DoubleClick(object sender, EventArgs e)
+        private ContextMenu CreateContextMenu()
         {
-            Run();
+            var contextMenu = new ContextMenu();
+
+            var nextItem = new MenuItem
+            {
+                Index = 0,
+                Text = "Next",
+            };
+            nextItem.Click += NextItem_Event;
+            contextMenu.MenuItems.Add(nextItem);
+
+            return contextMenu;
+        }
+
+        private void NextItem_Event(object sender, EventArgs e)
+        {
+            NextItem();
         }
 
         private void ScheduledRun()
         {
             while (true)
             {
-                Run();
+                NextItem();
 
                 TimeSpan untilMidnight = DateTime.Today.AddDays(1.0) - DateTime.Now;
                 int millis = (int)untilMidnight.TotalMilliseconds;
@@ -54,7 +72,7 @@ namespace MoffBackgroundSwitcher
             }
         }
 
-        private void Run()
+        private void NextItem()
         {
             string[] files = Directory.GetFiles(BackgroundDirectory, "*.*", SearchOption.AllDirectories);
 
