@@ -24,7 +24,7 @@ namespace MoffBackgroundSwitcher
 
             Hide();
 
-            NotifyIcon ni = new NotifyIcon
+            var ni = new NotifyIcon
             {
                 Icon = new Icon("Main.ico"),
                 Visible = true,
@@ -51,7 +51,6 @@ namespace MoffBackgroundSwitcher
                 TimeSpan untilMidnight = DateTime.Today.AddDays(1.0) - DateTime.Now;
                 int millis = (int)untilMidnight.TotalMilliseconds;
                 Thread.Sleep(millis);
-
             }
         }
 
@@ -61,25 +60,25 @@ namespace MoffBackgroundSwitcher
 
             string selected = files[new Random().Next(0, files.Length)];
 
-            Set(selected, Style.Stretched);
+            Set(selected, WallpaperStyle.Stretched);
         }
 
-        private static void Set(string uri, Style style)
+        private static void Set(string uri, WallpaperStyle style)
         {
             RegistryKey key = Registry.CurrentUser.OpenSubKey(@"Control Panel\Desktop", true);
-            if (style == Style.Stretched)
+            if (style == WallpaperStyle.Stretched)
             {
                 key.SetValue(@"WallpaperStyle", 2.ToString());
                 key.SetValue(@"TileWallpaper", 0.ToString());
             }
 
-            if (style == Style.Centered)
+            if (style == WallpaperStyle.Centered)
             {
                 key.SetValue(@"WallpaperStyle", 1.ToString());
                 key.SetValue(@"TileWallpaper", 0.ToString());
             }
 
-            if (style == Style.Tiled)
+            if (style == WallpaperStyle.Tiled)
             {
                 key.SetValue(@"WallpaperStyle", 1.ToString());
                 key.SetValue(@"TileWallpaper", 1.ToString());
@@ -95,7 +94,7 @@ namespace MoffBackgroundSwitcher
         [DllImport("user32.dll", CharSet = CharSet.Auto)]
         static extern int SystemParametersInfo(int uAction, int uParam, string lpvParam, int fuWinIni);
 
-        private enum Style : int
+        private enum WallpaperStyle : int
         {
             Tiled,
             Centered,
