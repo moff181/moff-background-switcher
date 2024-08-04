@@ -1,7 +1,7 @@
 # Install
 
 1. Make a new folder where you want to put all your backgrounds
-1. Download the latest release and unzip it
+1. Download the latest [release](https://github.com/moff181/moff-background-switcher/releases) and unzip it
 1. Press the window key + r at the same time. This should open a window called "Run". In the textbox, put "shell:startup" and hit OK
 1. Right click and add a new shortcut. Set the path to be "INSTALL_DIRECTORY/MoffBackgroundSwitcher.exe". E.g. if you unzipped it in "C:\MyPrograms", the shortcut path would be "C:\MyPrograms\MoffBackgroundSwitcher.exe"
 1. Run the exe to kick it off the first time
