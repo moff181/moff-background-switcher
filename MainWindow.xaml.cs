@@ -20,8 +20,6 @@ namespace MoffBackgroundSwitcher
 
         private SettingsWindow _settingsWindow;
 
-        private const string BackgroundDirectory = @"A:\Background";
-
         public MainWindow()
         {
             InitializeComponent();
@@ -100,7 +98,17 @@ namespace MoffBackgroundSwitcher
 
         private void NextItem()
         {
-            string[] files = Directory.GetFiles(BackgroundDirectory, "*.*", SearchOption.AllDirectories);
+            if(!Directory.Exists(_settings.BackgroundDirectory))
+            {
+                return;
+            }
+
+            string[] files = Directory.GetFiles(_settings.BackgroundDirectory, "*.*", SearchOption.AllDirectories);
+
+            if(files.Length == 0)
+            {
+                return;
+            }
 
             string selected = files[new Random().Next(0, files.Length)];
 
