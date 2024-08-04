@@ -16,6 +16,8 @@ namespace MoffBackgroundSwitcher
         private const int SPIF_UPDATEINIFILE = 0x01;
         private const int SPIF_SENDWININICHANGE = 0x02;
 
+        private readonly Settings _settings;
+
         private SettingsWindow _settingsWindow;
 
         private const string BackgroundDirectory = @"A:\Background";
@@ -25,6 +27,8 @@ namespace MoffBackgroundSwitcher
             InitializeComponent();
 
             Hide();
+
+            _settings = Settings.Load();
 
             var ni = new NotifyIcon
             {
@@ -72,7 +76,7 @@ namespace MoffBackgroundSwitcher
                 return;
             }
 
-            _settingsWindow = new SettingsWindow();
+            _settingsWindow = new SettingsWindow(_settings);
             _settingsWindow.Closed += (s, ev) => _settingsWindow = null;
             _settingsWindow.Show();
         }
